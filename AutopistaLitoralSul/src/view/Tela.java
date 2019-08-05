@@ -30,12 +30,17 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
 
     private JLabel tituloMetodo = new JLabel();
     private JLabel tituloQuantidade = new JLabel();
-    private ButtonGroup grupoBotao = new ButtonGroup();
+    private JLabel tituloArquivo = new JLabel();
+    
     private JTextField textoQuantidade = new JTextField();
+    private JTextField textoArquivo = new JTextField();
+    
     private JButton botaoIniciar = new JButton();
     private JButton botaoEncerrar = new JButton();
     private JRadioButton radioMonitor = new JRadioButton();
     private JRadioButton radioSemaforo = new JRadioButton();
+    private ButtonGroup grupoBotao = new ButtonGroup();
+    
     private JPanel painel = new JPanel();
 
     public Tela() {
@@ -52,22 +57,41 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
         this.setSize(1500, 1500);
         this.add(painel);
 
-        
-        tituloMetodo.setLocation(100, 190);
-        tituloMetodo.setVisible(true);
-        tituloMetodo.setSize(1050, 40);
-        tituloMetodo.setText("Selecione o método desejado:");
-        
-        
         tituloQuantidade.setLocation(100, 60);
         tituloQuantidade.setVisible(true);
         tituloQuantidade.setSize(1050, 40);
         tituloQuantidade.setText("Insira a quantidade de carros desejada:");
-
-        textoQuantidade.setLocation(100, 110);
+        
+        textoQuantidade.setLocation(100, 100);
         textoQuantidade.setVisible(true);
         textoQuantidade.setSize(150, 40);
         textoQuantidade.setText("5");
+        
+        tituloMetodo.setLocation(100, 150 );
+        tituloMetodo.setVisible(true);
+        tituloMetodo.setSize(1050, 40);
+        tituloMetodo.setText("Selecione o método desejado:");
+        
+        radioMonitor.setLocation(100, 200);
+        radioMonitor.setVisible(true);
+        radioMonitor.setSize(100, 15);
+        radioMonitor.setText("Monitor");
+        radioMonitor.setSelected(true);
+
+        radioSemaforo.setLocation(100, 225);
+        radioSemaforo.setVisible(true);
+        radioSemaforo.setSize(100, 15);
+        radioSemaforo.setText("Semaforo");
+        
+        tituloArquivo.setLocation(100, 275);
+        tituloArquivo.setVisible(true);
+        tituloArquivo.setSize(1050, 40);
+        tituloArquivo.setText("Insira o mapa:");
+        
+        textoArquivo.setLocation(100, 325);
+        textoArquivo.setVisible(true);
+        textoArquivo.setSize(250, 40);
+        textoArquivo.setText("");
 
         botaoIniciar.setLocation(100, 400);
         botaoIniciar.setVisible(true);
@@ -79,27 +103,18 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
         botaoEncerrar.setSize(180, 30);
         botaoEncerrar.setText("Encerrar");
 
-        radioMonitor.setLocation(100, 240);
-        radioMonitor.setVisible(true);
-        radioMonitor.setSize(100, 15);
-        radioMonitor.setText("Monitor");
-        radioMonitor.setSelected(true);
-
-        radioSemaforo.setLocation(100, 275);
-        radioSemaforo.setVisible(true);
-        radioSemaforo.setSize(100, 15);
-        radioSemaforo.setText("Semaforo");
-
         grupoBotao.add(radioMonitor);
         grupoBotao.add(radioSemaforo);
 
         painel.add(tituloMetodo);
         painel.add(tituloQuantidade);
+        painel.add(tituloArquivo);
         painel.add(botaoIniciar);
         painel.add(botaoEncerrar);
         painel.add(radioMonitor);
         painel.add(radioSemaforo);
         painel.add(textoQuantidade);
+        painel.add(textoArquivo);
         painel.setLocation(0, 0);
         painel.setSize(1500, 1500);
         painel.setVisible(true);
@@ -137,7 +152,7 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
                 int qtdVeiculos;
                 try {
                     qtdVeiculos = Integer.parseInt(textoQuantidade.getText());
-                    controller.carregarMapa(qtdVeiculos, radioSemaforo.isSelected());
+                    controller.carregarMapa( textoArquivo.getText(), qtdVeiculos, radioSemaforo.isSelected());
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                 }
@@ -147,7 +162,6 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
         botaoEncerrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("foi");
                 controller.finalizarTudo();
             }
         });

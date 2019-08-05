@@ -1,9 +1,11 @@
 package controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import javax.swing.JOptionPane;
 import model.Cruzamento;
 import model.Fabrica;
 import model.FabricaMonitor;
@@ -14,9 +16,6 @@ import model.Veiculo;
 import utils.LeitorArquivo;
 
 public class Controle {
-
-    
-    private static final String NOME_ARQUIVO = "src/malhas/malha-exemplo-3.txt";
     
     private int quantidadeVeiculos;
     
@@ -39,7 +38,7 @@ public class Controle {
         listaObsController.remove( obs );
     }
     
-    public void carregarMapa(int quantidadeVeiculos, boolean semaforo) {
+    public void carregarMapa(String nomeArquivo, int quantidadeVeiculos, boolean semaforo) {
         this.quantidadeVeiculos = quantidadeVeiculos;
         Fabrica fabrica;
         LeitorArquivo leitor;
@@ -48,9 +47,11 @@ public class Controle {
         } else {
             fabrica = new FabricaMonitor();
         }
-        leitor = new LeitorArquivo(NOME_ARQUIVO, fabrica);
+        leitor = new LeitorArquivo(nomeArquivo, fabrica);
         try {
             leitor.carregarMapa();
+        }catch (FileNotFoundException ex){
+            JOptionPane.showMessageDialog(null, "Arquivo não foi encontrado!!");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
