@@ -48,7 +48,6 @@ public abstract class PedacoMapa {
     }
     
     public void andar(Veiculo v){
-//        System.out.println(getTipo() + " " + getX() + " " + getY() );
         try {
             Thread.sleep( TEMPO_ESPERA );
         } catch (InterruptedException ex) {

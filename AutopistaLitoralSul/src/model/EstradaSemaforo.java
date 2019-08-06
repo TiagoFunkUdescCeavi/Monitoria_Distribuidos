@@ -17,9 +17,7 @@ public class EstradaSemaforo extends Estrada{
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
-        System.out.println("Saindo: " + getX() + " " + getY() );
         andar( v );
-        System.out.println("Saindo: " + getX() + " " + getY() );
         semaforo.release();
     }
     

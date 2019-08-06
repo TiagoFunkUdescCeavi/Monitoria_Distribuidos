@@ -8,8 +8,6 @@ public class CruzamentoMonitor extends Cruzamento{
 
     @Override
     public synchronized void avancar(Veiculo v) {
-        System.out.println("Entrando: " + getX() + " " + getY() );
         andar( v );
-        System.out.println("Saindo: " + getX() + " " + getY() );
     }
 }

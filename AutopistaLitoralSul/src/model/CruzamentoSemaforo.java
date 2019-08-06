@@ -17,9 +17,7 @@ public class CruzamentoSemaforo extends Cruzamento{
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
-        System.out.println("Entrando: " + getX() + " " + getY() );
         andar( v );
-        System.out.println("Saindo: " + getX() + " " + getY() );
         semaforo.release();
     }
     

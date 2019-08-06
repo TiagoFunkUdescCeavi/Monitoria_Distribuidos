@@ -32,14 +32,12 @@ public class Veiculo extends Thread{
         finalizado = true;
         finalizacaoForcada = true;
         for( ObservadorVeiculo o : listaObs ){
-            System.out.println("false");
             o.avisarFinalizacao( getPedacoMapa().getX(), getPedacoMapa().getY(), false );
         }
     }
 
     @Override
     public void run() {
-//        System.out.println("foi");
         PedacoMapa pm;
         while( !finalizado ){
             pm = getPedacoMapa();
@@ -57,7 +55,6 @@ public class Veiculo extends Thread{
             }
             if( finalizado && !finalizacaoForcada ){
                 for( ObservadorVeiculo o : listaObs ){
-                    System.out.println("true");
                     o.avisarFinalizacao( pm.getX(), pm.getY(), true );
                 }
             }
