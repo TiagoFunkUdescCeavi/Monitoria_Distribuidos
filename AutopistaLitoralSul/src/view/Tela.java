@@ -65,7 +65,7 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
         textoQuantidade.setLocation(100, 100);
         textoQuantidade.setVisible(true);
         textoQuantidade.setSize(150, 40);
-        textoQuantidade.setText("5");
+        textoQuantidade.setText("10");
         
         tituloMetodo.setLocation(100, 150 );
         tituloMetodo.setVisible(true);
@@ -152,7 +152,7 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
                 int qtdVeiculos;
                 try {
                     qtdVeiculos = Integer.parseInt(textoQuantidade.getText());
-                    controller.carregarMapa( textoArquivo.getText(), qtdVeiculos, radioSemaforo.isSelected());
+                    controller.carregarMapa( textoArquivo.getText(), qtdVeiculos );
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                 }
@@ -230,7 +230,7 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
     }
 
     @Override
-    public void avisarFinalizacao(int x, int y, boolean criarNovo) {
+    public synchronized void avisarFinalizacao(int x, int y, boolean criarNovo) {
         matrizJLabel[x][y]
                 .setIcon(new ImageIcon(
                         getClass().getResource("../imagens/" + mapa[x][y].getTipo() + ".png")

@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Veiculo extends Thread{
     
@@ -38,25 +40,35 @@ public class Veiculo extends Thread{
 
     @Override
     public void run() {
-        PedacoMapa pm;
+        PedacoMapa atual;
+        PedacoMapa proximo;
         while( !finalizado ){
-            pm = getPedacoMapa();
-            if( pm != null ){
-                pm.avancar( this );
-                if( getPedacoMapa() == null ){
-                    finalizado = true;
-                }else{
+            atual = getPedacoMapa();
+            proximo = atual.informarProximo();
+            if( atual != null ){
+                if( proximo != null ){
+                    proximo.avancar(this);
+                    atual.sair();
                     for( ObservadorVeiculo o : listaObs ){
-                        o.avisarMovimento( pm.getX(), pm.getY(), getPedacoMapa().getX(), getPedacoMapa().getY() );
+                        o.avisarMovimento( atual.getX(), atual.getY(), proximo.getX(), proximo.getY() );
                     }
+                }else{
+                    finalizado = true;
+                    atual.sair();
                 }
             }else{
                 finalizado = true;
             }
             if( finalizado && !finalizacaoForcada ){
                 for( ObservadorVeiculo o : listaObs ){
-                    o.avisarFinalizacao( pm.getX(), pm.getY(), true );
+                    o.avisarFinalizacao( atual.getX(), atual.getY(), true );
                 }
+            }
+            
+            try {
+                Thread.sleep( PedacoMapa.TEMPO_ESPERA );
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
             }
         }
     }

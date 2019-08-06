@@ -17,8 +17,15 @@ public class EstradaSemaforo extends Estrada{
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
-        andar( v );
-        semaforo.release();
+        if( this.getVeiculo() == null ){
+            v.setPedacoMapa(this);
+            this.setVeiculo( v );
+        }
     }
     
+    @Override
+    public void sair(){
+        this.setVeiculo(null);
+        semaforo.release();
+    }
 }

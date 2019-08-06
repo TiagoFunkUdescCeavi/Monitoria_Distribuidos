@@ -17,7 +17,13 @@ public class CruzamentoSemaforo extends Cruzamento{
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
-        andar( v );
+        v.setPedacoMapa(this);
+        this.setVeiculo( v );
+    }
+    
+    @Override
+    public void sair(){
+        this.setVeiculo(null);
         semaforo.release();
     }
     

@@ -8,7 +8,6 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 import model.Cruzamento;
 import model.Fabrica;
-import model.FabricaMonitor;
 import model.FabricaSemaforo;
 import model.ObservadorController;
 import model.PedacoMapa;
@@ -38,15 +37,10 @@ public class Controle {
         listaObsController.remove( obs );
     }
     
-    public void carregarMapa(String nomeArquivo, int quantidadeVeiculos, boolean semaforo) {
+    public void carregarMapa(String nomeArquivo, int quantidadeVeiculos) {
         this.quantidadeVeiculos = quantidadeVeiculos;
-        Fabrica fabrica;
+        Fabrica fabrica = new FabricaSemaforo();
         LeitorArquivo leitor;
-        if (semaforo) {
-            fabrica = new FabricaSemaforo();
-        } else {
-            fabrica = new FabricaMonitor();
-        }
         leitor = new LeitorArquivo(nomeArquivo, fabrica);
         try {
             leitor.carregarMapa();
@@ -71,7 +65,6 @@ public class Controle {
 
     private void inserirVeiculos() {
         Veiculo v;
-        System.out.println( quantidadeVeiculos/posicoesIniciais.size() + 1 );
         for (int i = 0; i < quantidadeVeiculos/posicoesIniciais.size() + 1; i++) {
             for (int j = 0; j < quantidadeVeiculos && j < posicoesIniciais.size(); j++) {
                 v = new Veiculo( posicoesIniciais.get( j ) );

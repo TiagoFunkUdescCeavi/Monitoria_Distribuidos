@@ -7,7 +7,7 @@ public abstract class PedacoMapa {
     private String sentido;
     private Veiculo veiculo;
     
-    protected final int TEMPO_ESPERA = 500;
+    public static final int TEMPO_ESPERA = 1500;
 
     public PedacoMapa(int x, int y, String sentido) {
         this.x = x;
@@ -47,18 +47,10 @@ public abstract class PedacoMapa {
         this.veiculo = veiculo;
     }
     
-    public void andar(Veiculo v){
-        try {
-            Thread.sleep( TEMPO_ESPERA );
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-        setVeiculo( null );
-        v.setPedacoMapa( this.informarProximo() );
-    }
+    public abstract void avancar(Veiculo v);
+    public abstract void sair();
     
     public abstract void adicionarCaminho( PedacoMapa pedacoMapa );
-    public abstract void avancar(Veiculo v);
     public abstract PedacoMapa informarProximo();
        
     public abstract String getTipo();
