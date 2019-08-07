@@ -16,8 +16,8 @@ public class LeitorArquivo {
     private String nomeArquivo;
     private Fabrica fabrica;
     
-    private List<Cruzamento> posicoesIniciais;
-    private List<Cruzamento> posicoesFinais;
+    private List<PedacoMapa> posicoesIniciais;
+    private List<PedacoMapa> posicoesFinais;
     
     private PedacoMapa[][] matriz;
     
@@ -29,32 +29,85 @@ public class LeitorArquivo {
     }
 
     public void carregarMapa() throws FileNotFoundException, IOException {
+        int aux;
         int numeroLinhas, numeroColunas;
-        int vetorAux[];
-        String leitura, leituraAux[];
+        int codigos[][];
+        String leituraAux[];
         BufferedReader br;
 
         br = new BufferedReader(new FileReader(new File(nomeArquivo)));
-        numeroColunas = Integer.parseInt(br.readLine().trim());
         numeroLinhas = Integer.parseInt(br.readLine().trim());
+        numeroColunas = Integer.parseInt(br.readLine().trim());
 
         matriz = new PedacoMapa[numeroLinhas][numeroColunas];
+        codigos = new int[numeroLinhas][numeroColunas];
 
-        while ((leitura = br.readLine()) != null) {
-            leituraAux = leitura.replaceAll("\t", " ").trim().split(" ");
-            vetorAux = new int[leituraAux.length];
-            for (int i = 0; i < leituraAux.length; i++) {
-                vetorAux[i] = Integer.parseInt(leituraAux[i]);
+        for( int i = 0; i < numeroLinhas; i++ ){
+            leituraAux = br.readLine().replaceAll("\t", " ").trim().split(" ");
+            for( int j = 0; j < numeroColunas; j++ ){
+                aux = Integer.parseInt( leituraAux[ j ] );
+                codigos[ i ][ j ] = aux;
+                matriz[ i ][ j ] = criarPedacoMapa( i, j, aux);
             }
-            popularMatriz(vetorAux, matriz);
         }
+        
+        br.close();
+//        popularMatriz(vetorAux, matriz);
+    }
+    
+    private PedacoMapa criarPedacoMapa( int i, int j, int codigo ){
+        PedacoMapa pm;
+        if( codigo == 1 ){
+            pm = fabrica.criarEstrada(i, j, "cima");
+            if( i == matriz.length-1 ){
+                posicoesIniciais.add( pm );
+            }
+            if( i == 0 ){
+                posicoesFinais.add( pm );
+            }
+            return pm;
+            //////////////////////////////////////
+        }else if( codigo == 2 ){
+            pm = fabrica.criarEstrada(i, j, "direita");
+            if( j == 0 ){
+                posicoesIniciais.add( pm );
+            }
+            if( j == matriz.length-1 ){
+                posicoesFinais.add( pm );
+            }
+            return pm;
+            //////////////////////////////////////
+        }else if( codigo == 3 ){
+            pm = fabrica.criarEstrada(i, j, "baixo");
+            if( i == 0 ){
+                posicoesIniciais.add( pm );
+            }
+            if( i == matriz.length-1 ){
+                posicoesFinais.add( pm );
+            }
+            return pm;
+            //////////////////////////////////////
+        }else if( codigo == 4 ){
+            pm = fabrica.criarEstrada(i, j, "esquerda");
+            if( j == matriz.length-1 ){
+                posicoesIniciais.add( pm );
+            }
+            if( j == 0 ){
+                posicoesFinais.add( pm );
+            }
+            return pm;
+            //////////////////////////////////////
+        }else if( codigo >= 5 && codigo <= 14 ){
+            return fabrica.criarCruzamento(i, j, "");
+        }
+        return null;
     }
 
-    public List<Cruzamento> getPosicoesIniciais() {
+    public List<PedacoMapa> getPosicoesIniciais() {
         return posicoesIniciais;
     }
 
-    public List<Cruzamento> getPosicoesFinais() {
+    public List<PedacoMapa> getPosicoesFinais() {
         return posicoesFinais;
     }
 
@@ -70,8 +123,6 @@ public class LeitorArquivo {
         yInicial = vetorAux[ 1 ];
         xFinal = vetorAux[ 2 ];
         yFinal = vetorAux[ 3 ];
-        
-//        System.out.println( xInicial + " " + yInicial + " " + xFinal + " " + yFinal );
         
         if ( yInicial == yFinal ) {
             if ( xInicial < xFinal) {
@@ -94,6 +145,8 @@ public class LeitorArquivo {
                     if( xFinal == matriz.length-1 ){
                         posicoesFinais.add( c );
                     }
+                }else{
+                    matriz[ xFinal-1 ][ yFinal ].adicionarCaminho( matriz[ xFinal ][ yFinal ] );
                 }
                 /*11111111111111111111111111111111111111111111111111111111111*/
                 /*11111111111111111111111111111111111111111111111111111111111*/

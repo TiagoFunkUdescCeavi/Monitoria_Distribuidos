@@ -1,0 +1,7 @@
+C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-exemplo-1.txt
+C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-exemplo-2.txt
+C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-exemplo-3.txt
+C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-exemplo-4.txt
+C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-mao-dupla.txt
+C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-teste1.txt
+C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-teste2.txt

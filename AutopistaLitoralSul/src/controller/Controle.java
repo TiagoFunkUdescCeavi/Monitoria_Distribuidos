@@ -20,8 +20,8 @@ public class Controle {
     
     private PedacoMapa[][] mapa;
     
-    private List<Cruzamento> posicoesIniciais;
-    private List<Cruzamento> posicoesFinais;
+    private List<PedacoMapa> posicoesIniciais;
+    private List<PedacoMapa> posicoesFinais;
     
     private List<ObservadorController> listaObsController;
 
