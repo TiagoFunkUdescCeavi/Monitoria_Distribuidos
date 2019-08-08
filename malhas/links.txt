@@ -3,5 +3,6 @@ C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-exemp
 C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-exemplo-3.txt
 C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-exemplo-4.txt
 C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-mao-dupla.txt
+C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-simples.txt
 C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-teste1.txt
 C:\Users\10516125940\Documents\Github\Monitoria_Distribuidos\malhas\\malha-teste2.txt

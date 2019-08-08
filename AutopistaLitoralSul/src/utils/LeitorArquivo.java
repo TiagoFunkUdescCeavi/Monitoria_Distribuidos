@@ -7,11 +7,28 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Cruzamento;
 import model.Fabrica;
 import model.PedacoMapa;
 
 public class LeitorArquivo {
+    
+    private static final int VAZIO = 0;
+    private static final int CIMA = 1;
+    private static final int DIREITA = 2;
+    private static final int BAIXO = 3;
+    private static final int ESQUERDA = 4;
+    
+    private static final int CIMA_DIREITA = 5;
+    private static final int CIMA_BAIXO = 6;
+    private static final int CIMA_ESQUERDA = 7;
+    private static final int DIREITA_BAIXO = 8;
+    private static final int DIREITA_ESQUERDA = 9;
+    private static final int BAIXO_ESQUERDA = 10;
+    
+    private static final int CIMA_DIREITA_BAIXO = 11;
+    private static final int CIMA_DIREITA_ESQUERDA = 12;
+    private static final int CIMA_BAIXO_ESQUERDA = 13;
+    private static final int DIREITA_BAIXO_ESQUERDA = 14;
 
     private String nomeArquivo;
     private Fabrica fabrica;
@@ -46,19 +63,27 @@ public class LeitorArquivo {
             leituraAux = br.readLine().replaceAll("\t", " ").trim().split(" ");
             for( int j = 0; j < numeroColunas; j++ ){
                 aux = Integer.parseInt( leituraAux[ j ] );
-                codigos[ i ][ j ] = aux;
-                matriz[ i ][ j ] = criarPedacoMapa( i, j, aux);
+                codigos[ j ][ i ] = aux;
+                matriz[ j ][ i ] = criarPedacoMapa( j, i, aux);
+            }
+        }
+        
+        for( int i = 0; i < numeroLinhas; i++ ){
+            for( int j = 0; j < numeroColunas; j++ ){
+                criarLinks(j, i, codigos[ j ][ i ]);
             }
         }
         
         br.close();
-//        popularMatriz(vetorAux, matriz);
     }
     
-    private PedacoMapa criarPedacoMapa( int i, int j, int codigo ){
+    private PedacoMapa criarPedacoMapa( int j, int i, int codigo ){
         PedacoMapa pm;
-        if( codigo == 1 ){
-            pm = fabrica.criarEstrada(i, j, "cima");
+        if( codigo == 0 ){
+            return null;
+        }
+        if( codigo == CIMA ){
+            pm = fabrica.criarEstrada(j, i, "cima");
             if( i == matriz.length-1 ){
                 posicoesIniciais.add( pm );
             }
@@ -67,8 +92,8 @@ public class LeitorArquivo {
             }
             return pm;
             //////////////////////////////////////
-        }else if( codigo == 2 ){
-            pm = fabrica.criarEstrada(i, j, "direita");
+        }else if( codigo == DIREITA ){
+            pm = fabrica.criarEstrada(j, i, "direita");
             if( j == 0 ){
                 posicoesIniciais.add( pm );
             }
@@ -77,8 +102,8 @@ public class LeitorArquivo {
             }
             return pm;
             //////////////////////////////////////
-        }else if( codigo == 3 ){
-            pm = fabrica.criarEstrada(i, j, "baixo");
+        }else if( codigo == BAIXO ){
+            pm = fabrica.criarEstrada(j, i, "baixo");
             if( i == 0 ){
                 posicoesIniciais.add( pm );
             }
@@ -87,8 +112,8 @@ public class LeitorArquivo {
             }
             return pm;
             //////////////////////////////////////
-        }else if( codigo == 4 ){
-            pm = fabrica.criarEstrada(i, j, "esquerda");
+        }else if( codigo == ESQUERDA ){
+            pm = fabrica.criarEstrada(j, i, "esquerda");
             if( j == matriz.length-1 ){
                 posicoesIniciais.add( pm );
             }
@@ -98,11 +123,74 @@ public class LeitorArquivo {
             return pm;
             //////////////////////////////////////
         }else if( codigo >= 5 && codigo <= 14 ){
-            return fabrica.criarCruzamento(i, j, "");
+            return fabrica.criarCruzamento(j, i, "");
         }
         return null;
     }
 
+    private void criarLinks( int j, int i, int codigo ){
+        PedacoMapa pm;
+        if( codigo == 0 ){
+            return;
+        }
+        if( codigo == CIMA && i != 0 ){
+            matriz[ j ][ i ].adicionarCaminho( matriz[ j ][ i-1 ] );
+            
+        }else if( codigo == DIREITA && j != matriz.length-1 ){
+            matriz[ j ][ i ].adicionarCaminho( matriz[ j+1 ][ i ] );
+            
+        }else if( codigo == BAIXO && i != matriz.length-1 ){
+            matriz[ j ][ i ].adicionarCaminho( matriz[ j ][ i+1 ] );
+            
+        }else if( codigo == ESQUERDA && j != 0 ){
+            matriz[ j ][ i ].adicionarCaminho( matriz[ j-1 ][ i ] );
+            
+        } else if( codigo == CIMA_DIREITA ){
+            criarLinks(j, i, CIMA);
+            criarLinks(j, i, DIREITA);
+            
+        }else if( codigo == CIMA_BAIXO ){
+            criarLinks(j, i, CIMA);
+            criarLinks(j, i, BAIXO);
+            
+        }else if( codigo == CIMA_ESQUERDA ){
+            criarLinks(j, i, CIMA);
+            criarLinks(j, i, ESQUERDA);
+            
+        }else if( codigo == DIREITA_BAIXO ){
+            criarLinks(j, i, DIREITA);
+            criarLinks(j, i, BAIXO);
+            
+        }else if( codigo == DIREITA_ESQUERDA ){
+            criarLinks(j, i, DIREITA);
+            criarLinks(j, i, ESQUERDA);
+            
+        }else if( codigo == BAIXO_ESQUERDA ){
+            criarLinks(j, i, BAIXO);
+            criarLinks(j, i, ESQUERDA);
+            
+        }else if( codigo == CIMA_DIREITA_BAIXO ){
+            criarLinks(j, i, CIMA);
+            criarLinks(j, i, DIREITA);
+            criarLinks(j, i, BAIXO);
+            
+        }else if( codigo == CIMA_DIREITA_ESQUERDA ){
+            criarLinks(j, i, CIMA);
+            criarLinks(j, i, DIREITA);
+            criarLinks(j, i, ESQUERDA);
+            
+        }else if( codigo == CIMA_BAIXO_ESQUERDA ){
+            criarLinks(j, i, CIMA);
+            criarLinks(j, i, BAIXO);
+            criarLinks(j, i, ESQUERDA);
+            
+        }else if( codigo == DIREITA_BAIXO_ESQUERDA ){
+            criarLinks(j, i, DIREITA);
+            criarLinks(j, i, BAIXO);
+            criarLinks(j, i, ESQUERDA);
+            
+        }    
+    }
     public List<PedacoMapa> getPosicoesIniciais() {
         return posicoesIniciais;
     }
@@ -114,124 +202,5 @@ public class LeitorArquivo {
     public PedacoMapa[][] getMatriz() {
         return matriz;
     }
-
-    private void popularMatriz(int[] vetorAux, PedacoMapa[][] matriz) {
-        int yInicial, xInicial, xFinal, yFinal;
-        PedacoMapa pm;
-        
-        xInicial = vetorAux[ 0 ];
-        yInicial = vetorAux[ 1 ];
-        xFinal = vetorAux[ 2 ];
-        yFinal = vetorAux[ 3 ];
-        
-        if ( yInicial == yFinal ) {
-            if ( xInicial < xFinal) {
-                if( matriz[ xInicial ][ yInicial ] == null ){
-                    pm = fabrica.criarCruzamento( xInicial, yInicial, "direita" );
-                    matriz[ xInicial ][ yInicial ] = pm;
-                    if( xInicial == 0 ){
-                        posicoesIniciais.add( (Cruzamento) pm );
-                    }
-                }
-                for (int i = xInicial+1; i <= xFinal-1; i++) {
-                    pm = fabrica.criarEstrada( i, yInicial, "direita" );
-                    matriz[ i-1 ][ yInicial ].adicionarCaminho( pm );
-                    matriz[  i  ][ yInicial ] = pm;
-                }
-                if( matriz[ xFinal ][ yFinal ] == null ){
-                    Cruzamento c = fabrica.criarCruzamento( xFinal, yFinal, "direita" );
-                    matriz[ xFinal-1 ][ yFinal ].adicionarCaminho( c );
-                    matriz[ xFinal ][ yFinal ] = c;
-                    if( xFinal == matriz.length-1 ){
-                        posicoesFinais.add( c );
-                    }
-                }else{
-                    matriz[ xFinal-1 ][ yFinal ].adicionarCaminho( matriz[ xFinal ][ yFinal ] );
-                }
-                /*11111111111111111111111111111111111111111111111111111111111*/
-                /*11111111111111111111111111111111111111111111111111111111111*/
-                /*11111111111111111111111111111111111111111111111111111111111*/
-            } else {
-                if( matriz[ xInicial ][ yInicial ] == null ){
-                    pm = fabrica.criarCruzamento( xInicial, yInicial, "esquerda" );
-                    matriz[ xInicial ][ yInicial ] = pm;
-                    if( xInicial == matriz.length-1 ){
-                        posicoesIniciais.add( (Cruzamento) pm );
-                    }
-                }
-                for (int i = xInicial-1; i >= xFinal+1; i--) {
-                    pm = fabrica.criarEstrada( i, yFinal, "esquerda" );
-                    matriz[ i+1 ][ yInicial ].adicionarCaminho( pm );
-                    matriz[ i ][ yInicial ] = pm;
-                }
-                if( matriz[ xFinal ][ yFinal ] == null ){
-                    Cruzamento c = fabrica.criarCruzamento( xFinal, yFinal, "esquerda" );
-                    matriz[ xFinal+1 ][ yFinal ].adicionarCaminho( c );
-                    matriz[ xFinal ][ yFinal ] = c;
-                    if( xFinal == 0 ){
-                        posicoesFinais.add( c );
-                    }
-                }else{
-                    matriz[ xFinal+1 ][ yFinal ].adicionarCaminho( matriz[ xFinal ][ yFinal ] );
-                }
-                /*22222222222222222222222222222222222222222222222222222222222*/
-                /*22222222222222222222222222222222222222222222222222222222222*/
-                /*22222222222222222222222222222222222222222222222222222222222*/
-            }
-        } else {
-            if ( yInicial < yFinal ) {
-                if( matriz[ xInicial ][ yInicial ] == null ){
-                    pm = fabrica.criarCruzamento( xInicial, yInicial, "baixo" );
-                    matriz[ xInicial ][ yInicial ] = pm;
-                    if( yInicial == 0 ){
-                        posicoesIniciais.add( (Cruzamento) pm);
-                    }
-                }
-                for (int i = yInicial+1; i <= yFinal-1; i++) {
-                    pm = fabrica.criarEstrada( xInicial, i, "baixo" );
-                    matriz[ xInicial ][ i-1 ].adicionarCaminho( pm );
-                    matriz[ xInicial ][ i ] = pm;
-                }
-                if( matriz[ xFinal ][ yFinal ] == null ){
-                    Cruzamento c = fabrica.criarCruzamento( xFinal, yFinal, "baixo" );
-                    matriz[ xFinal ][ yFinal-1 ].adicionarCaminho( c );
-                    matriz[ xFinal ][ yFinal ] = c;
-                    if( yFinal == matriz[0].length-1 ){
-                        posicoesFinais.add( c );
-                    }
-                }else{
-                    matriz[ xFinal ][ yFinal-1 ].adicionarCaminho( matriz[ xFinal ][ yFinal ] );
-                }
-                /*33333333333333333333333333333333333333333333333333333333333*/
-                /*33333333333333333333333333333333333333333333333333333333333*/
-                /*33333333333333333333333333333333333333333333333333333333333*/
-            } else {
-                if( matriz[ xInicial ][ yInicial ] == null ){
-                    pm = fabrica.criarCruzamento( xInicial, yInicial, "cima" );
-                    matriz[ xInicial ][ yInicial ] = pm;
-                    if( yInicial == matriz[0].length-1 ){
-                        posicoesIniciais.add( (Cruzamento) pm);
-                    }
-                }
-                for (int i = yInicial-1; i >= yFinal+1; i--) {
-                    pm = fabrica.criarEstrada( xFinal, i, "cima" );
-                    matriz[ xInicial ][ i+1 ].adicionarCaminho( pm );
-                    matriz[ xInicial ][ i ] = pm;
-                }
-                if( matriz[ xFinal ][ yFinal ] == null ){
-                    Cruzamento c = fabrica.criarCruzamento( xFinal, yFinal, "cima" );
-                    matriz[ xFinal ][ yFinal+1 ].adicionarCaminho( c );
-                    matriz[ xFinal ][ yFinal ] = c;
-                    if( yFinal == 0 ){
-                        posicoesFinais.add( c );
-                    }
-                }else{
-                    matriz[ xFinal ][ yFinal+1 ].adicionarCaminho( matriz[ xFinal ][ yFinal ] );
-                }
-                /*44444444444444444444444444444444444444444444444444444444444*/
-                /*44444444444444444444444444444444444444444444444444444444444*/
-                /*44444444444444444444444444444444444444444444444444444444444*/
-            }
-        }
-    }
+    
 }

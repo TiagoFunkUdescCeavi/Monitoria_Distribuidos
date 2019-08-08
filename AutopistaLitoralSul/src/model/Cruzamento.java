@@ -20,6 +20,7 @@ public abstract class Cruzamento extends PedacoMapa{
     
     @Override
     public PedacoMapa informarProximo(){
+        System.out.println( "Cruzamento: " + caminhos.size() );
         if( caminhos.isEmpty() ){
             return null;
         }
