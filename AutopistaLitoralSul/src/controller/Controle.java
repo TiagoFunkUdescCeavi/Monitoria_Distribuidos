@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.swing.JOptionPane;
-import model.Cruzamento;
 import model.Fabrica;
 import model.FabricaSemaforo;
 import model.ObservadorController;
@@ -65,7 +64,9 @@ public class Controle {
 
     private void inserirVeiculos() {
         Veiculo v;
-        for (int i = 0; i < quantidadeVeiculos/posicoesIniciais.size() + 1; i++) {
+        int quantidade = quantidadeVeiculos/posicoesIniciais.size();
+        if ( quantidade == 0 ) quantidade++;
+        for (int i = 0; i <  quantidade; i++) {
             for (int j = 0; j < quantidadeVeiculos && j < posicoesIniciais.size(); j++) {
                 v = new Veiculo( posicoesIniciais.get( j ) );
                 for( ObservadorController o : listaObsController ){

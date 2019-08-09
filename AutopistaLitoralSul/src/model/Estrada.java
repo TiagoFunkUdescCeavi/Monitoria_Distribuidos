@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Estrada extends PedacoMapa {
 
     protected PedacoMapa proximo;
@@ -14,8 +17,18 @@ public abstract class Estrada extends PedacoMapa {
     }
     
     @Override
-    public PedacoMapa informarProximo(){
-        return proximo;
+    public boolean precisoProjetarCaminho(){
+        return false;
+    }
+    
+    @Override
+    public List< PedacoMapa > criarCaminho(){
+        List< PedacoMapa > caminho = new ArrayList<>();
+        caminho.add(0, proximo);
+        if( proximo != null && proximo.precisoProjetarCaminho() ){
+            caminho.addAll( proximo.criarCaminho() );
+        }
+        return caminho;
     }
            
     @Override

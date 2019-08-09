@@ -19,14 +19,23 @@ public abstract class Cruzamento extends PedacoMapa{
     }
     
     @Override
-    public PedacoMapa informarProximo(){
-        System.out.println( "Cruzamento: " + caminhos.size() );
+    public boolean precisoProjetarCaminho(){
+        return true;
+    }
+    
+    @Override
+    public List< PedacoMapa > criarCaminho(){
+        List< PedacoMapa > caminho = new ArrayList<>();
         if( caminhos.isEmpty() ){
-            return null;
+            return caminho;
         }
         int proximo = new Random().nextInt( caminhos.size() );
         PedacoMapa pm = caminhos.get( proximo );
-        return pm;
+        caminho.add( 0, pm );
+        if( pm.precisoProjetarCaminho() ){
+            caminho.addAll( pm.criarCaminho() );
+        }
+        return caminho;
     }
            
     @Override

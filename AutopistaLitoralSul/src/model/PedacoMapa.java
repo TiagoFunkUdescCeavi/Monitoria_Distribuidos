@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 public abstract class PedacoMapa {
     
     private int x;
@@ -47,11 +49,15 @@ public abstract class PedacoMapa {
         this.veiculo = veiculo;
     }
     
+    public abstract void reservar();
+    public abstract boolean tentaReservar();
     public abstract void avancar(Veiculo v);
+    public abstract void liberar();
     public abstract void sair();
     
     public abstract void adicionarCaminho( PedacoMapa pedacoMapa );
-    public abstract PedacoMapa informarProximo();
+    public abstract boolean precisoProjetarCaminho();
+    public abstract List< PedacoMapa > criarCaminho();
        
     public abstract String getTipo();
     public abstract String getInfo();

@@ -129,7 +129,6 @@ public class LeitorArquivo {
     }
 
     private void criarLinks( int j, int i, int codigo ){
-        PedacoMapa pm;
         if( codigo == 0 ){
             return;
         }

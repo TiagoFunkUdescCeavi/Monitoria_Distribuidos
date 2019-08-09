@@ -9,14 +9,23 @@ public class EstradaSemaforo extends Estrada{
     public EstradaSemaforo(int x, int y, String sentido) {
         super(x, y, sentido);
     }
-
+    
     @Override
-    public void avancar(Veiculo v) {
+    public void reservar(){
         try {
             semaforo.acquire();
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean tentaReservar(){
+        return semaforo.tryAcquire();
+    }
+
+    @Override
+    public void avancar(Veiculo v) {
         if( this.getVeiculo() == null ){
             v.setPedacoMapa(this);
             this.setVeiculo( v );
@@ -24,8 +33,13 @@ public class EstradaSemaforo extends Estrada{
     }
     
     @Override
-    public void sair(){
-        this.setVeiculo(null);
+    public void liberar(){
         semaforo.release();
     }
+    
+    @Override
+    public void sair(){
+        this.setVeiculo(null);
+    }
+    
 }

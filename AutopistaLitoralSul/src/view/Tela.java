@@ -65,7 +65,7 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
         textoQuantidade.setLocation(100, 100);
         textoQuantidade.setVisible(true);
         textoQuantidade.setSize(150, 40);
-        textoQuantidade.setText("10");
+        textoQuantidade.setText("1");
         
         tituloMetodo.setLocation(100, 150 );
         tituloMetodo.setVisible(true);
@@ -204,13 +204,15 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
 
     @Override
     public synchronized void avisarMovimento(int xAnterior, int yAnterior, int x, int y) {
+        String anterior = mapa[xAnterior][yAnterior].getTipo();
+        String atual = mapa[x][y].getTipo();
         matrizJLabel[xAnterior][yAnterior]
                 .setIcon(new ImageIcon(
-                        getClass().getResource("../imagens/" + mapa[xAnterior][yAnterior].getTipo() + ".png")
+                        getClass().getResource("../imagens/" + anterior + ".png")
                 ));
         matrizJLabel[x][y]
                 .setIcon(new ImageIcon(
-                        getClass().getResource("../imagens/" + mapa[x][y].getTipo() + ".png")
+                        getClass().getResource("../imagens/" + atual + ".png")
                 ));
 //        painel.repaint();
     }
@@ -231,9 +233,10 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
 
     @Override
     public synchronized void avisarFinalizacao(int x, int y, boolean criarNovo) {
+        String imagem = mapa[x][y].getTipo();
         matrizJLabel[x][y]
                 .setIcon(new ImageIcon(
-                        getClass().getResource("../imagens/" + mapa[x][y].getTipo() + ".png")
+                        getClass().getResource("../imagens/" + imagem + ".png")
                 ));
         if (criarNovo) {
             controller.inserirNovoVeiculo();
