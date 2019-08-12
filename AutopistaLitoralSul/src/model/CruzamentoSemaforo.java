@@ -1,6 +1,7 @@
 package model;
 
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 public class CruzamentoSemaforo extends Cruzamento{
     
@@ -14,6 +15,7 @@ public class CruzamentoSemaforo extends Cruzamento{
     public void reservar(){
         try {
             semaforo.acquire();
+            assert semaforo.availablePermits() == 0:"Número de permissões deveria ser igual a zero.";
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
@@ -26,12 +28,14 @@ public class CruzamentoSemaforo extends Cruzamento{
 
     @Override
     public void avancar(Veiculo v) {
+        assert this.getVeiculo() == null : "Não deveria ter veículo nesse PedacaMapa";
         v.setPedacoMapa(this);
         this.setVeiculo( v );
     }
     
     @Override
     public void liberar(){
+        assert this.getVeiculo() == null : "Não deveria ter veículo ao dar o release";
         semaforo.release();
     }
     

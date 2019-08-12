@@ -5,9 +5,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -65,7 +67,7 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
         textoQuantidade.setLocation(100, 100);
         textoQuantidade.setVisible(true);
         textoQuantidade.setSize(150, 40);
-        textoQuantidade.setText("1");
+        textoQuantidade.setText("10");
         
         tituloMetodo.setLocation(100, 150 );
         tituloMetodo.setVisible(true);
@@ -129,10 +131,12 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
                 jl.setSize(TAMANHO, TAMANHO);
                 jl.setVisible(true);
                 jl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                jl.setOpaque(true);
                 if (mapa[i][j] != null) {
-                    jl.setIcon(new ImageIcon(
-                            getClass().getResource("../imagens/" + mapa[i][j].getTipo() + ".png")
-                    ));
+//                    jl.setIcon(new ImageIcon(
+//                            getClass().getResource("../imagens/" + mapa[i][j].getTipo() + ".png")
+//                    ));
+                    jl.setBackground( Color.BLACK );
                 }
                 painel.add(jl);
                 matrizJLabel[i][j] = jl;
@@ -206,15 +210,37 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
     public synchronized void avisarMovimento(int xAnterior, int yAnterior, int x, int y) {
         String anterior = mapa[xAnterior][yAnterior].getTipo();
         String atual = mapa[x][y].getTipo();
-        matrizJLabel[xAnterior][yAnterior]
-                .setIcon(new ImageIcon(
-                        getClass().getResource("../imagens/" + anterior + ".png")
-                ));
-        matrizJLabel[x][y]
-                .setIcon(new ImageIcon(
-                        getClass().getResource("../imagens/" + atual + ".png")
-                ));
-//        painel.repaint();
+
+        matrizJLabel[xAnterior][yAnterior].setBackground( Color.BLACK );
+        if( mapa[x][y].getVeiculo() != null ){
+            matrizJLabel[x][y].setBackground( escolherCor( mapa[x][y].getVeiculo().getCor() ) );
+        }
+
+//        matrizJLabel[xAnterior][yAnterior]
+//                .setIcon(new ImageIcon(
+//                        getClass().getResource("../imagens/" + anterior + ".png")
+//                ));
+//        matrizJLabel[x][y]
+//                .setIcon(new ImageIcon(
+//                        getClass().getResource("../imagens/" + atual + ".png")
+//                ));
+    }
+    
+    private Color escolherCor( int valor ){
+        switch (valor){
+            case 0:
+                return Color.ORANGE;
+            case 1:
+               return Color.BLUE;
+            case 2:
+                return Color.GREEN;
+            case 3:
+                return Color.RED;
+            case 4:
+                return Color.YELLOW;
+            default:
+                return null;
+        }
     }
 
     @Override
@@ -234,13 +260,15 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
     @Override
     public synchronized void avisarFinalizacao(int x, int y, boolean criarNovo) {
         String imagem = mapa[x][y].getTipo();
-        matrizJLabel[x][y]
-                .setIcon(new ImageIcon(
-                        getClass().getResource("../imagens/" + imagem + ".png")
-                ));
+        matrizJLabel[x][y].setBackground( Color.BLACK );
+//        matrizJLabel[x][y]
+//                .setIcon(new ImageIcon(
+//                        getClass().getResource("../imagens/" + imagem + ".png")
+//                ));
         if (criarNovo) {
             controller.inserirNovoVeiculo();
         }
+
     }
 
     public static void main(String[] args) {

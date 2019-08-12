@@ -9,6 +9,7 @@ public class Veiculo extends Thread{
     private PedacoMapa pedacoMapa;
     private boolean finalizado;
     private boolean finalizacaoForcada;
+    private int cor;
     
     private Random rand = new Random();
     
@@ -18,6 +19,7 @@ public class Veiculo extends Thread{
         finalizado = false;
         this.pedacoMapa = pedacoMapa;
         pedacoMapa.setVeiculo( this );
+        this.cor = rand.nextInt( 5 );
     }
 
     public void setPedacoMapa(PedacoMapa pedacoMapa) {
@@ -29,6 +31,14 @@ public class Veiculo extends Thread{
 
     public PedacoMapa getPedacoMapa() {
         return pedacoMapa;
+    }
+
+    public int getCor() {
+        return cor;
+    }
+
+    public void setCor(int cor) {
+        this.cor = cor;
     }
     
     public void finalizar(){
@@ -95,7 +105,7 @@ public class Veiculo extends Thread{
                 reservou = true;
                 for( int i = 0; i < caminho.size(); i++ ){
                     if( !caminho.get( i ).tentaReservar() ){
-                        liberarAcesso(caminho);
+                        liberarAcesso(caminho, i);
                         reservou = false;
                         sleep( rand.nextInt(100) );
                         break;
@@ -105,8 +115,8 @@ public class Veiculo extends Thread{
         }
     }
     
-    private void liberarAcesso( List< PedacoMapa > caminho ){
-        for( int i = 0; i < caminho.size(); i++ ){
+    private void liberarAcesso( List< PedacoMapa > caminho, int cont ){
+        for( int i = 0; i < cont; i++ ){
             caminho.get( i ).liberar();
         }
     }
