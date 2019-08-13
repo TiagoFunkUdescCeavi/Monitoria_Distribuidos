@@ -25,16 +25,26 @@ public abstract class Cruzamento extends PedacoMapa{
     
     @Override
     public List< PedacoMapa > criarCaminho(){
+        boolean estaEmLoop;
         List< PedacoMapa > caminho = new ArrayList<>();
         if( caminhos.isEmpty() ){
             return caminho;
         }
-        int proximo = new Random().nextInt( caminhos.size() );
-        PedacoMapa pm = caminhos.get( proximo );
-        caminho.add( 0, pm );
-        if( pm.precisoProjetarCaminho() ){
-            caminho.addAll( pm.criarCaminho() );
-        }
+        do{
+            estaEmLoop = false;
+            int proximo = new Random().nextInt( caminhos.size() );
+            PedacoMapa pm = caminhos.get( proximo );
+            if( caminho.size() < 4 ){
+                caminho.add( 0, pm );
+                if( pm.precisoProjetarCaminho() ){
+                    caminho.addAll( pm.criarCaminho() );
+                }
+            }else if( caminho.size() == 4 && !pm.precisoProjetarCaminho() ){
+                caminho.add( 0, pm );
+            }else{
+                estaEmLoop = true;
+            }
+        }while( estaEmLoop );
         return caminho;
     }
            

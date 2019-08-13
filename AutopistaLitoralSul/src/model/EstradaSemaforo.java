@@ -14,7 +14,7 @@ public class EstradaSemaforo extends Estrada{
     public void reservar(){
         try {
             semaforo.acquire();
-            assert semaforo.availablePermits() == 0:"Número de permissões deveria ser igual a zero.";
+//            assert semaforo.availablePermits() == 0:"Número de permissões deveria ser igual a zero.";
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
@@ -27,14 +27,16 @@ public class EstradaSemaforo extends Estrada{
 
     @Override
     public void avancar(Veiculo v) {
-        assert this.getVeiculo() == null : "Não deveria ter veículo nesse PedacaMapa";
+//        assert this.getVeiculo() == null : "Não deveria ter veículo nesse PedacaMapa";
         v.setPedacoMapa(this);
         this.setVeiculo( v );
     }
     
     @Override
     public void liberar(){
-        assert this.getVeiculo() == null : "Não deveria ter veículo ao dar o release";
+        //        assert this.getVeiculo() == null : "Não deveria ter veículo ao dar o release";
+//        assert semaforo.availablePermits() == 0:"Número de permissões deveria ser igual a zero.";
+
         semaforo.release();
     }
     

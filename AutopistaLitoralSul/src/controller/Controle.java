@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Fabrica;
 import model.FabricaSemaforo;
@@ -25,6 +23,8 @@ public class Controle {
     private List<PedacoMapa> posicoesFinais;
     
     private List<ObservadorController> listaObsController;
+    
+    private Random rand = new Random();
 
     public Controle() {
         listaObsController = new ArrayList<>();
@@ -65,22 +65,19 @@ public class Controle {
     }
 
     private void inserirVeiculos() {
-        try {
         Veiculo v;
-        int quantidade = quantidadeVeiculos/posicoesIniciais.size();
-        if ( quantidade == 0 ) quantidade++;
-        for (int i = 0; i <=  quantidade; i++) {
-            for (int j = 0; j < quantidadeVeiculos && j < posicoesIniciais.size(); j++) {
-                    v = new Veiculo( posicoesIniciais.get( j ) );
-                    for( ObservadorController o : listaObsController ){
-                        o.cadastrarVeiculo( v );
-                    }
-                    v.start();
+        PedacoMapa pm;
+        for( int i = 0; i < quantidadeVeiculos; i++ ){
+            pm = posicoesIniciais.get( rand.nextInt( posicoesIniciais.size() ) );
+            if( pm.tentaReservar() ){
+                v = new Veiculo( pm );
+                for( ObservadorController o : listaObsController ){
+                    o.cadastrarVeiculo( v );
                 }
-                Thread.sleep( PedacoMapa.TEMPO_ESPERA );
+                v.start();
+            }else{
+                i--;
             }
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
         }
     }
     

@@ -24,9 +24,7 @@ public class Veiculo extends Thread{
 
     public void setPedacoMapa(PedacoMapa pedacoMapa) {
         this.pedacoMapa = pedacoMapa;
-        if( pedacoMapa != null ){
-            pedacoMapa.setVeiculo( this );
-        }
+        pedacoMapa.setVeiculo( this );
     }
 
     public PedacoMapa getPedacoMapa() {
