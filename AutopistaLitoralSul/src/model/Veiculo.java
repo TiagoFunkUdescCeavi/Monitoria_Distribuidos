@@ -57,8 +57,11 @@ public class Veiculo extends Thread{
             while( !finalizado ){
                 atual = getPedacoMapa();
                 if( atual != null ){
-                    caminho = atual.criarCaminho();
-                    adquirirAcesso(caminho);
+                    boolean deuBoa;
+                    do{
+                        caminho = atual.criarCaminho();
+                        deuBoa = adquirirAcesso(caminho);
+                    }while( !deuBoa );
                     
                     for( int i = 0; i < caminho.size(); i++ ){
                         proximo = caminho.get( i );
@@ -69,12 +72,13 @@ public class Veiculo extends Thread{
                             for( ObservadorVeiculo o : listaObs ){
                                 o.avisarMovimento( atual.getX(), atual.getY(), proximo.getX(), proximo.getY() );
                             }
+                            atual.liberar();
                             atual = proximo;
                         }else{
                             atual.sair();
+                            atual.liberar();
                             finalizado = true;
                         }
-                        atual.liberar();
                         sleep( PedacoMapa.TEMPO_ESPERA );
                     }
                 }else{
@@ -92,24 +96,21 @@ public class Veiculo extends Thread{
         }
     }
     
-    private void adquirirAcesso( List< PedacoMapa > caminho ) throws InterruptedException{
+    private boolean adquirirAcesso( List< PedacoMapa > caminho ) throws InterruptedException{
         if( caminho.size() == 1 ){
             if( caminho.get( 0 ) != null ){
                 caminho.get( 0 ).reservar();
             }
+            return true;
         }else{
-            boolean reservou;
-            do{
-                reservou = true;
-                for( int i = 0; i < caminho.size(); i++ ){
-                    if( !caminho.get( i ).tentaReservar() ){
-                        liberarAcesso(caminho, i);
-                        reservou = false;
-                        sleep( rand.nextInt(100) );
-                        break;
-                    }
+            for( int i = 0; i < caminho.size(); i++ ){
+                if( !caminho.get( i ).tentaReservar() ){
+                    liberarAcesso(caminho, i);
+                    sleep( rand.nextInt(100) );
+                    return false;
                 }
-            }while( !reservou );
+            }
+            return true;
         }
     }
     

@@ -67,7 +67,8 @@ public class Controle {
     private void inserirVeiculos() {
         Veiculo v;
         PedacoMapa pm;
-        for( int i = 0; i < quantidadeVeiculos; i++ ){
+        int contador = 0;
+        while ( quantidadeVeiculos > contador) {
             pm = posicoesIniciais.get( rand.nextInt( posicoesIniciais.size() ) );
             if( pm.tentaReservar() ){
                 v = new Veiculo( pm );
@@ -75,10 +76,11 @@ public class Controle {
                     o.cadastrarVeiculo( v );
                 }
                 v.start();
-            }else{
-                i--;
+                contador++;
             }
+            
         }
+         
     }
     
     public void inserirNovoVeiculo(){
