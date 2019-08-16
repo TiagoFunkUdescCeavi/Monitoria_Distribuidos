@@ -1,14 +1,14 @@
 package model;
 
-public class FabricaSemaforo implements Fabrica{
+public class FabricaMonitor implements Fabrica{
 
     @Override
     public Estrada criarEstrada(int x, int y, String sentido) {
-        return new EstradaSemaforo( x, y, sentido);
+        return new EstradaMonitor( x, y, sentido );
     }
 
     @Override
     public Cruzamento criarCruzamento(int x, int y, String sentido) {
-        return new CruzamentoSemaforo( x, y, sentido );
+        return new CruzamentoMonitor( x, y, sentido );
     }
 }

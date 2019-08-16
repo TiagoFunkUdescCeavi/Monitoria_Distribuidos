@@ -153,7 +153,7 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
                 int qtdVeiculos;
                 try {
                     qtdVeiculos = Integer.parseInt(textoQuantidade.getText());
-                    controller.carregarMapa( textoArquivo.getText(), qtdVeiculos );
+                    controller.carregarMapa( textoArquivo.getText(), qtdVeiculos, radioMonitor.isSelected() );
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                 }
