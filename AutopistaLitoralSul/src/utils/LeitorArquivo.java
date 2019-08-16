@@ -13,22 +13,27 @@ import model.PedacoMapa;
 public class LeitorArquivo {
     
     private static final int VAZIO = 0;
-    private static final int CIMA = 1;
-    private static final int DIREITA = 2;
-    private static final int BAIXO = 3;
-    private static final int ESQUERDA = 4;
+    private static final int ESTRADA_CIMA = 1;
+    private static final int ESTRADA_DIREITA = 2;
+    private static final int ESTRADA_BAIXO = 3;
+    private static final int ESTRADA_ESQUERDA = 4;
     
-    private static final int CIMA_DIREITA = 5;
-    private static final int CIMA_BAIXO = 6;
-    private static final int CIMA_ESQUERDA = 7;
-    private static final int DIREITA_BAIXO = 8;
-    private static final int DIREITA_ESQUERDA = 9;
-    private static final int BAIXO_ESQUERDA = 10;
+    private static final int CRUZAMENTO_CIMA = 5;
+    private static final int CRUZAMENTO_DIREITA = 6;
+    private static final int CRUZAMENTO_BAIXO = 7;
+    private static final int CRUZAMENTO_ESQUERDA = 8;
     
-    private static final int CIMA_DIREITA_BAIXO = 11;
-    private static final int CIMA_DIREITA_ESQUERDA = 12;
-    private static final int CIMA_BAIXO_ESQUERDA = 13;
-    private static final int DIREITA_BAIXO_ESQUERDA = 14;
+    private static final int CRUZAMENTO_CIMA_DIREITA = 9;
+    private static final int CRUZAMENTO_CIMA_BAIXO = 10;
+    private static final int CRUZAMENTO_CIMA_ESQUERDA = 11;
+    private static final int CRUZAMENTO_DIREITA_BAIXO = 12;
+    private static final int CRUZAMENTO_DIREITA_ESQUERDA = 13;
+    private static final int CRUZAMENTO_BAIXO_ESQUERDA = 14;
+    
+    private static final int CRUZAMENTO_CIMA_DIREITA_BAIXO = 15;
+    private static final int CRUZAMENTO_CIMA_DIREITA_ESQUERDA = 16;
+    private static final int CRUZAMENTO_CIMA_BAIXO_ESQUERDA = 17;
+    private static final int CRUZAMENTO_DIREITA_BAIXO_ESQUERDA = 18;
 
     private String nomeArquivo;
     private Fabrica fabrica;
@@ -82,7 +87,7 @@ public class LeitorArquivo {
         if( codigo == 0 ){
             return null;
         }
-        if( codigo == CIMA ){
+        if( codigo == ESTRADA_CIMA ){
             pm = fabrica.criarEstrada(j, i, "cima");
             if( i == matriz.length-1 ){
                 posicoesIniciais.add( pm );
@@ -92,7 +97,7 @@ public class LeitorArquivo {
             }
             return pm;
             //////////////////////////////////////
-        }else if( codigo == DIREITA ){
+        }else if( codigo == ESTRADA_DIREITA ){
             pm = fabrica.criarEstrada(j, i, "direita");
             if( j == 0 ){
                 posicoesIniciais.add( pm );
@@ -102,7 +107,7 @@ public class LeitorArquivo {
             }
             return pm;
             //////////////////////////////////////
-        }else if( codigo == BAIXO ){
+        }else if( codigo == ESTRADA_BAIXO ){
             pm = fabrica.criarEstrada(j, i, "baixo");
             if( i == 0 ){
                 posicoesIniciais.add( pm );
@@ -112,7 +117,7 @@ public class LeitorArquivo {
             }
             return pm;
             //////////////////////////////////////
-        }else if( codigo == ESQUERDA ){
+        }else if( codigo == ESTRADA_ESQUERDA ){
             pm = fabrica.criarEstrada(j, i, "esquerda");
             if( j == matriz.length-1 ){
                 posicoesIniciais.add( pm );
@@ -122,7 +127,7 @@ public class LeitorArquivo {
             }
             return pm;
             //////////////////////////////////////
-        }else if( codigo >= 5 && codigo <= 14 ){
+        }else if( codigo >= 5 && codigo <= 18 ){
             return fabrica.criarCruzamento(j, i, "");
         }
         return null;
@@ -132,61 +137,73 @@ public class LeitorArquivo {
         if( codigo == 0 ){
             return;
         }
-        if( codigo == CIMA && i != 0 ){
+        if( codigo == ESTRADA_CIMA && i != 0 ){
             matriz[ j ][ i ].adicionarCaminho( matriz[ j ][ i-1 ] );
             
-        }else if( codigo == DIREITA && j != matriz.length-1 ){
+        }else if( codigo == ESTRADA_DIREITA && j != matriz.length-1 ){
             matriz[ j ][ i ].adicionarCaminho( matriz[ j+1 ][ i ] );
             
-        }else if( codigo == BAIXO && i != matriz.length-1 ){
+        }else if( codigo == ESTRADA_BAIXO && i != matriz.length-1 ){
             matriz[ j ][ i ].adicionarCaminho( matriz[ j ][ i+1 ] );
             
-        }else if( codigo == ESQUERDA && j != 0 ){
+        }else if( codigo == ESTRADA_ESQUERDA && j != 0 ){
             matriz[ j ][ i ].adicionarCaminho( matriz[ j-1 ][ i ] );
             
-        } else if( codigo == CIMA_DIREITA ){
-            criarLinks(j, i, CIMA);
-            criarLinks(j, i, DIREITA);
+        } else if( codigo == CRUZAMENTO_CIMA ){
+            criarLinks(j, i, ESTRADA_CIMA);
             
-        }else if( codigo == CIMA_BAIXO ){
-            criarLinks(j, i, CIMA);
-            criarLinks(j, i, BAIXO);
+        }else if( codigo == CRUZAMENTO_DIREITA ){
+            criarLinks(j, i, ESTRADA_DIREITA);
             
-        }else if( codigo == CIMA_ESQUERDA ){
-            criarLinks(j, i, CIMA);
-            criarLinks(j, i, ESQUERDA);
+        }else if( codigo == CRUZAMENTO_BAIXO ){
+            criarLinks(j, i, ESTRADA_BAIXO);
             
-        }else if( codigo == DIREITA_BAIXO ){
-            criarLinks(j, i, DIREITA);
-            criarLinks(j, i, BAIXO);
+        }else if( codigo == CRUZAMENTO_ESQUERDA ){
+            criarLinks(j, i, ESTRADA_ESQUERDA);
             
-        }else if( codigo == DIREITA_ESQUERDA ){
-            criarLinks(j, i, DIREITA);
-            criarLinks(j, i, ESQUERDA);
+        }else if( codigo == CRUZAMENTO_CIMA_DIREITA ){
+            criarLinks(j, i, ESTRADA_CIMA);
+            criarLinks(j, i, ESTRADA_DIREITA);
             
-        }else if( codigo == BAIXO_ESQUERDA ){
-            criarLinks(j, i, BAIXO);
-            criarLinks(j, i, ESQUERDA);
+        }else if( codigo == CRUZAMENTO_CIMA_BAIXO ){
+            criarLinks(j, i, ESTRADA_CIMA);
+            criarLinks(j, i, ESTRADA_BAIXO);
             
-        }else if( codigo == CIMA_DIREITA_BAIXO ){
-            criarLinks(j, i, CIMA);
-            criarLinks(j, i, DIREITA);
-            criarLinks(j, i, BAIXO);
+        }else if( codigo == CRUZAMENTO_CIMA_ESQUERDA ){
+            criarLinks(j, i, ESTRADA_CIMA);
+            criarLinks(j, i, ESTRADA_ESQUERDA);
             
-        }else if( codigo == CIMA_DIREITA_ESQUERDA ){
-            criarLinks(j, i, CIMA);
-            criarLinks(j, i, DIREITA);
-            criarLinks(j, i, ESQUERDA);
+        }else if( codigo == CRUZAMENTO_DIREITA_BAIXO ){
+            criarLinks(j, i, ESTRADA_DIREITA);
+            criarLinks(j, i, ESTRADA_BAIXO);
             
-        }else if( codigo == CIMA_BAIXO_ESQUERDA ){
-            criarLinks(j, i, CIMA);
-            criarLinks(j, i, BAIXO);
-            criarLinks(j, i, ESQUERDA);
+        }else if( codigo == CRUZAMENTO_DIREITA_ESQUERDA ){
+            criarLinks(j, i, ESTRADA_DIREITA);
+            criarLinks(j, i, ESTRADA_ESQUERDA);
             
-        }else if( codigo == DIREITA_BAIXO_ESQUERDA ){
-            criarLinks(j, i, DIREITA);
-            criarLinks(j, i, BAIXO);
-            criarLinks(j, i, ESQUERDA);
+        }else if( codigo == CRUZAMENTO_BAIXO_ESQUERDA ){
+            criarLinks(j, i, ESTRADA_BAIXO);
+            criarLinks(j, i, ESTRADA_ESQUERDA);
+            
+        }else if( codigo == CRUZAMENTO_CIMA_DIREITA_BAIXO ){
+            criarLinks(j, i, ESTRADA_CIMA);
+            criarLinks(j, i, ESTRADA_DIREITA);
+            criarLinks(j, i, ESTRADA_BAIXO);
+            
+        }else if( codigo == CRUZAMENTO_CIMA_DIREITA_ESQUERDA ){
+            criarLinks(j, i, ESTRADA_CIMA);
+            criarLinks(j, i, ESTRADA_DIREITA);
+            criarLinks(j, i, ESTRADA_ESQUERDA);
+            
+        }else if( codigo == CRUZAMENTO_CIMA_BAIXO_ESQUERDA ){
+            criarLinks(j, i, ESTRADA_CIMA);
+            criarLinks(j, i, ESTRADA_BAIXO);
+            criarLinks(j, i, ESTRADA_ESQUERDA);
+            
+        }else if( codigo == CRUZAMENTO_DIREITA_BAIXO_ESQUERDA ){
+            criarLinks(j, i, ESTRADA_DIREITA);
+            criarLinks(j, i, ESTRADA_BAIXO);
+            criarLinks(j, i, ESTRADA_ESQUERDA);
             
         }    
     }
