@@ -78,9 +78,7 @@ public class Controle {
                 v.start();
                 contador++;
             }
-            
         }
-         
     }
     
     public void inserirNovoVeiculo(){

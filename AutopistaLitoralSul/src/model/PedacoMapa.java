@@ -48,6 +48,38 @@ public abstract class PedacoMapa {
     public void setVeiculo(Veiculo veiculo) {
         this.veiculo = veiculo;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PedacoMapa other = (PedacoMapa) obj;
+        if (this.x != other.x) {
+            return false;
+        }
+        if (this.y != other.y) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "{x=" + x + ", y=" + y + '}';
+    }
     
     public abstract void reservar();
     public abstract boolean tentaReservar();
@@ -57,7 +89,7 @@ public abstract class PedacoMapa {
     
     public abstract void adicionarCaminho( PedacoMapa pedacoMapa );
     public abstract boolean precisoProjetarCaminho();
-    public abstract List< PedacoMapa > criarCaminho();
+    public abstract List< PedacoMapa > criarCaminho( List< PedacoMapa > caminho );
        
     public abstract String getTipo();
     public abstract String getInfo();

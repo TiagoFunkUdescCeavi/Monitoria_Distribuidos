@@ -24,30 +24,37 @@ public abstract class Cruzamento extends PedacoMapa{
     }
     
     @Override
-    public List< PedacoMapa > criarCaminho(){
+    public List< PedacoMapa > criarCaminho( List< PedacoMapa > caminho ){
         boolean estaEmLoop;
-        List< PedacoMapa > caminho = new ArrayList<>();
+        PedacoMapa pm;
         if( caminhos.isEmpty() ){
             return caminho;
         }
         do{
-            estaEmLoop = false;
             int proximo = new Random().nextInt( caminhos.size() );
-            PedacoMapa pm = caminhos.get( proximo );
-            if( caminho.size() < 4 ){
-                caminho.add( 0, pm );
-                if( pm.precisoProjetarCaminho() ){
-                    caminho.addAll( pm.criarCaminho() );
-                }
-            }else if( caminho.size() == 4 && !pm.precisoProjetarCaminho() ){
-                caminho.add( 0, pm );
-            }else{
-                estaEmLoop = true;
+            pm = caminhos.get( proximo );
+            estaEmLoop = estaRepetido(caminho, pm);
+            
+            if( !estaEmLoop ){
+                caminho.add( pm );
             }
+            
         }while( estaEmLoop );
+        if( pm.precisoProjetarCaminho() ){
+            caminho = pm.criarCaminho( caminho );
+        }
         return caminho;
     }
-           
+    
+    private boolean estaRepetido( List<PedacoMapa> caminho, PedacoMapa pm){
+        for (int i = 0; i < caminho.size(); i++) {
+            if( pm.equals( caminho.get( i ) ) ){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     @Override
     public String getTipo(){
         String s = "cruzamento";
@@ -69,5 +76,6 @@ public abstract class Cruzamento extends PedacoMapa{
         }
         return s;
     }
-        
+    
+    
 }

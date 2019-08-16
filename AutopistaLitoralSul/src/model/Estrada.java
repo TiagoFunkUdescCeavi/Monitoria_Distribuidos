@@ -22,11 +22,10 @@ public abstract class Estrada extends PedacoMapa {
     }
     
     @Override
-    public List< PedacoMapa > criarCaminho(){
-        List< PedacoMapa > caminho = new ArrayList<>();
+    public List< PedacoMapa > criarCaminho( List< PedacoMapa > caminho ){
         caminho.add(0, proximo);
         if( proximo != null && proximo.precisoProjetarCaminho() ){
-            caminho.addAll( proximo.criarCaminho() );
+            caminho = proximo.criarCaminho( caminho );
         }
         return caminho;
     }

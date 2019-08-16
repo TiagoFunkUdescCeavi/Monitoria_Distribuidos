@@ -57,11 +57,14 @@ public class Veiculo extends Thread{
             while( !finalizado ){
                 atual = getPedacoMapa();
                 if( atual != null ){
-                    boolean deuBoa;
-                    do{
-                        caminho = atual.criarCaminho();
-                        deuBoa = adquirirAcesso(caminho);
-                    }while( !deuBoa );
+//                    boolean deuBoa;
+//                    do{
+//                        caminho = atual.criarCaminho();
+//                        deuBoa = adquirirAcesso(caminho);
+//                    }while( !deuBoa );
+                    caminho = atual.criarCaminho( new ArrayList<>() );
+                    estaOk(caminho);
+                    adquirirAcesso(caminho);
                     
                     for( int i = 0; i < caminho.size(); i++ ){
                         proximo = caminho.get( i );
@@ -96,28 +99,57 @@ public class Veiculo extends Thread{
         }
     }
     
-    private boolean adquirirAcesso( List< PedacoMapa > caminho ) throws InterruptedException{
+    //private 
+    
+    private boolean estaOk( List<PedacoMapa> caminho){
+        PedacoMapa pm;
+        for (int i = 0; i < caminho.size(); i++) {
+            pm = caminho.get( i );
+            for (int j = i+1; j < caminho.size(); j++) {
+                if( pm.equals( caminho.get( j ) ) ){
+                    System.out.println("Eita !!!");
+                    for (int k = 0; k < caminho.size(); k++) {
+                        System.out.print( caminho.get( k ).toString() + " " );
+                    }
+                    System.out.println("");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    private int acessos = 0;
+    
+    private void adquirirAcesso( List< PedacoMapa > caminho ) throws InterruptedException{
         if( caminho.size() == 1 ){
             if( caminho.get( 0 ) != null ){
                 caminho.get( 0 ).reservar();
             }
-            return true;
         }else{
-            for( int i = 0; i < caminho.size(); i++ ){
-                if( !caminho.get( i ).tentaReservar() ){
-                    liberarAcesso(caminho, i);
-                    sleep( rand.nextInt(100) );
-                    return false;
+            boolean reservou;
+            do{
+                reservou = true;
+                for( int i = 0; i < caminho.size(); i++ ){
+                    if( !caminho.get( i ).tentaReservar() ){
+                        liberarAcesso(caminho, i);
+                        reservou = false;
+                        sleep( rand.nextInt(100) );
+                        break;
+                    }else{
+                        acessos++;
+                    }
                 }
-            }
-            return true;
+            }while( !reservou );
         }
     }
     
     private void liberarAcesso( List< PedacoMapa > caminho, int cont ){
         for( int i = 0; i < cont; i++ ){
             caminho.get( i ).liberar();
+            acessos--;
         }
+//        System.out.println( this.getId() + ":" + acessos);
     }
     
     public void adicionarObservador( ObservadorVeiculo obs ){
