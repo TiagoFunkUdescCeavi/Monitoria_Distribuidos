@@ -24,12 +24,11 @@ public class LeitorArquivo {
     private static final int CRUZAMENTO_ESQUERDA = 8;
     
     private static final int CRUZAMENTO_CIMA_DIREITA = 9;
-    private static final int CRUZAMENTO_CIMA_BAIXO = 10;
-    private static final int CRUZAMENTO_CIMA_ESQUERDA = 11;
-    private static final int CRUZAMENTO_DIREITA_BAIXO = 12;
-    private static final int CRUZAMENTO_DIREITA_ESQUERDA = 13;
-    private static final int CRUZAMENTO_BAIXO_ESQUERDA = 14;
-    
+    private static final int CRUZAMENTO_CIMA_ESQUERDA = 10;
+    private static final int CRUZAMENTO_DIREITA_BAIXO = 11;
+    private static final int CRUZAMENTO_BAIXO_ESQUERDA = 12;
+    private static final int CRUZAMENTO_CIMA_BAIXO = 13;
+    private static final int CRUZAMENTO_DIREITA_ESQUERDA = 14;
     private static final int CRUZAMENTO_CIMA_DIREITA_BAIXO = 15;
     private static final int CRUZAMENTO_CIMA_DIREITA_ESQUERDA = 16;
     private static final int CRUZAMENTO_CIMA_BAIXO_ESQUERDA = 17;
