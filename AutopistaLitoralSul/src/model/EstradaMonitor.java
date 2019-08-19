@@ -1,11 +1,10 @@
 package model;
 
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class EstradaMonitor extends Estrada{
 
-    private Lock bloqueio = new ReentrantLock(true);
+    private ReentrantLock bloqueio = new ReentrantLock(true);
     
     public EstradaMonitor(int x, int y, String sentido) {
         super(x, y, sentido);
@@ -18,7 +17,8 @@ public class EstradaMonitor extends Estrada{
 
     @Override
     public boolean tentaReservar(){
-        return bloqueio.tryLock();
+        boolean tentar = bloqueio.tryLock();
+        return tentar;
     }
 
     @Override
@@ -29,6 +29,8 @@ public class EstradaMonitor extends Estrada{
     
     @Override
     public void liberar(){
+        assert bloqueio.isLocked() : "Não esta lockend";
+        System.out.println( bloqueio.getHoldCount() );
         bloqueio.unlock();
     }
     
@@ -36,5 +38,9 @@ public class EstradaMonitor extends Estrada{
     public void sair(){
         this.setVeiculo(null);
     }
-    
+
+    @Override
+    public String toString() {
+        return super.toString() + bloqueio.toString();
+    }
 }

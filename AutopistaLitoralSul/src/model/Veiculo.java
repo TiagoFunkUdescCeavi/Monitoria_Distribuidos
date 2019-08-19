@@ -63,7 +63,7 @@ public class Veiculo extends Thread{
 //                        deuBoa = adquirirAcesso(caminho);
 //                    }while( !deuBoa );
                     caminho = atual.criarCaminho( new ArrayList<>() );
-                    estaOk(caminho);
+//                    estaOk(caminho);
                     adquirirAcesso(caminho);
                     
                     for( int i = 0; i < caminho.size(); i++ ){
@@ -75,6 +75,7 @@ public class Veiculo extends Thread{
                             for( ObservadorVeiculo o : listaObs ){
                                 o.avisarMovimento( atual.getX(), atual.getY(), proximo.getX(), proximo.getY() );
                             }
+                            System.out.println( "Liberar: " + atual.toString() );
                             atual.liberar();
                             atual = proximo;
                         }else{
@@ -119,8 +120,6 @@ public class Veiculo extends Thread{
         return true;
     }
     
-    private int acessos = 0;
-    
     private void adquirirAcesso( List< PedacoMapa > caminho ) throws InterruptedException{
         if( caminho.size() == 1 ){
             if( caminho.get( 0 ) != null ){
@@ -136,8 +135,6 @@ public class Veiculo extends Thread{
                         reservou = false;
                         sleep( rand.nextInt(100) );
                         break;
-                    }else{
-                        acessos++;
                     }
                 }
             }while( !reservou );
@@ -147,9 +144,7 @@ public class Veiculo extends Thread{
     private void liberarAcesso( List< PedacoMapa > caminho, int cont ){
         for( int i = 0; i < cont; i++ ){
             caminho.get( i ).liberar();
-            acessos--;
         }
-//        System.out.println( this.getId() + ":" + acessos);
     }
     
     public void adicionarObservador( ObservadorVeiculo obs ){

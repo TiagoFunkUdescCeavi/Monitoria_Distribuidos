@@ -46,7 +46,7 @@ public class Controle {
         
         if( ehSemaforo ){
             fabrica = new FabricaSemaforo();
-            System.out.println("Monitor");
+            System.out.println("Semaforo");
         }else{
             fabrica = new FabricaMonitor();
             System.out.println("Monitor");
@@ -77,9 +77,10 @@ public class Controle {
         Veiculo v;
         PedacoMapa pm;
         int contador = 0;
-        while ( quantidadeVeiculos > contador) {
+        while ( quantidadeVeiculos > contador ) {
             pm = posicoesIniciais.get( rand.nextInt( posicoesIniciais.size() ) );
             if( pm.tentaReservar() ){
+                System.out.println("Reservou: " + pm.toString() );
                 v = new Veiculo( pm );
                 for( ObservadorController o : listaObsController ){
                     o.cadastrarVeiculo( v );
@@ -91,13 +92,20 @@ public class Controle {
     }
     
     public void inserirNovoVeiculo(){
+        boolean reservou;
         Veiculo v;
-        int numero = new Random().nextInt( posicoesIniciais.size() );
-        v = new Veiculo( posicoesIniciais.get( numero ) );
-        for( ObservadorController o : listaObsController ){
-            o.cadastrarVeiculo( v );
-        }
-        v.start();
+        PedacoMapa pm;
+        do{
+            pm = posicoesIniciais.get( rand.nextInt( posicoesIniciais.size() ) );
+            reservou = pm.tentaReservar();
+            if( reservou ){
+                v = new Veiculo( pm );
+                for( ObservadorController o : listaObsController ){
+                    o.cadastrarVeiculo( v );
+                }
+                v.start();
+            }
+        }while( !reservou );
     }
 
     public void finalizarTudo() {
