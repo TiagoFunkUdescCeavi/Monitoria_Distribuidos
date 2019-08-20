@@ -3,11 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/10516125940/Documents/Github/Monitoria_Distribuidos/AutopistaLitoralSul/src/utils/LeitorArquivo.java</file>
-            <file>file:/C:/Users/10516125940/Documents/Github/Monitoria_Distribuidos/AutopistaLitoralSul/src/model/CruzamentoSemaforo.java</file>
-            <file>file:/C:/Users/10516125940/Documents/Github/Monitoria_Distribuidos/AutopistaLitoralSul/src/model/EstradaSemaforo.java</file>
-            <file>file:/C:/Users/10516125940/Documents/Github/Monitoria_Distribuidos/AutopistaLitoralSul/src/model/CruzamentoMonitor.java</file>
-            <file>file:/C:/Users/10516125940/Documents/Github/Monitoria_Distribuidos/AutopistaLitoralSul/src/model/Cruzamento.java</file>
+            <file>file:/C:/Users/10516125940/Documents/Github/Monitoria_Distribuidos/AutopistaLitoralSul/src/model/EstradaMonitor.java</file>
+            <file>file:/C:/Users/10516125940/Documents/Github/Monitoria_Distribuidos/AutopistaLitoralSul/src/controller/Controle.java</file>
+            <file>file:/C:/Users/10516125940/Documents/Github/Monitoria_Distribuidos/AutopistaLitoralSul/src/model/Veiculo.java</file>
         </group>
     </open-files>
 </project-private>
