@@ -67,27 +67,27 @@ public class LeitorArquivo {
             leituraAux = br.readLine().replaceAll("\t", " ").trim().split(" ");
             for( int j = 0; j < numeroColunas; j++ ){
                 aux = Integer.parseInt( leituraAux[ j ] );
-                codigos[ j ][ i ] = aux;
-                matriz[ j ][ i ] = criarPedacoMapa( j, i, aux);
+                codigos[ i ][ j ] = aux;
+                matriz[ i ][ j ] = criarPedacoMapa( i, j, aux);
             }
         }
         
         for( int i = 0; i < numeroLinhas; i++ ){
             for( int j = 0; j < numeroColunas; j++ ){
-                criarLinks(j, i, codigos[ j ][ i ]);
+                criarLinks(i, j, codigos[ i ][ j ]);
             }
         }
         
         br.close();
     }
     
-    private PedacoMapa criarPedacoMapa( int j, int i, int codigo ){
+    private PedacoMapa criarPedacoMapa( int i, int j, int codigo ){
         PedacoMapa pm;
         if( codigo == 0 ){
             return null;
         }
         if( codigo == ESTRADA_CIMA ){
-            pm = fabrica.criarEstrada(j, i, "cima");
+            pm = fabrica.criarEstrada(i, j, "cima");
             if( i == matriz.length-1 ){
                 posicoesIniciais.add( pm );
             }
@@ -97,7 +97,7 @@ public class LeitorArquivo {
             return pm;
             //////////////////////////////////////
         }else if( codigo == ESTRADA_DIREITA ){
-            pm = fabrica.criarEstrada(j, i, "direita");
+            pm = fabrica.criarEstrada(i, j, "direita");
             if( j == 0 ){
                 posicoesIniciais.add( pm );
             }
@@ -107,7 +107,7 @@ public class LeitorArquivo {
             return pm;
             //////////////////////////////////////
         }else if( codigo == ESTRADA_BAIXO ){
-            pm = fabrica.criarEstrada(j, i, "baixo");
+            pm = fabrica.criarEstrada(i, j, "baixo");
             if( i == 0 ){
                 posicoesIniciais.add( pm );
             }
@@ -117,7 +117,7 @@ public class LeitorArquivo {
             return pm;
             //////////////////////////////////////
         }else if( codigo == ESTRADA_ESQUERDA ){
-            pm = fabrica.criarEstrada(j, i, "esquerda");
+            pm = fabrica.criarEstrada(i, j, "esquerda");
             if( j == matriz.length-1 ){
                 posicoesIniciais.add( pm );
             }
@@ -127,82 +127,82 @@ public class LeitorArquivo {
             return pm;
             //////////////////////////////////////
         }else if( codigo >= 5 && codigo <= 18 ){
-            return fabrica.criarCruzamento(j, i, "");
+            return fabrica.criarCruzamento(i, j, "");
         }
         return null;
     }
 
-    private void criarLinks( int j, int i, int codigo ){
+    private void criarLinks( int i, int j, int codigo ){
         if( codigo == 0 ){
             return;
         }
         if( codigo == ESTRADA_CIMA && i != 0 ){
-            matriz[ j ][ i ].adicionarCaminho( matriz[ j ][ i-1 ] );
+            matriz[ i ][ j ].adicionarCaminho( matriz[ i-1 ][ j ] );
             
-        }else if( codigo == ESTRADA_DIREITA && j != matriz.length-1 ){
-            matriz[ j ][ i ].adicionarCaminho( matriz[ j+1 ][ i ] );
+        }else if( codigo == ESTRADA_DIREITA && j != matriz[i].length-1 ){
+            matriz[ i ][ j ].adicionarCaminho( matriz[ i ][ j+1 ] );
             
         }else if( codigo == ESTRADA_BAIXO && i != matriz.length-1 ){
-            matriz[ j ][ i ].adicionarCaminho( matriz[ j ][ i+1 ] );
+            matriz[ i ][ j ].adicionarCaminho( matriz[ i+1 ][ j ] );
             
         }else if( codigo == ESTRADA_ESQUERDA && j != 0 ){
-            matriz[ j ][ i ].adicionarCaminho( matriz[ j-1 ][ i ] );
+            matriz[ i ][ j ].adicionarCaminho( matriz[ i ][ j-1 ] );
             
         } else if( codigo == CRUZAMENTO_CIMA ){
-            criarLinks(j, i, ESTRADA_CIMA);
+            criarLinks(i, j, ESTRADA_CIMA);
             
         }else if( codigo == CRUZAMENTO_DIREITA ){
-            criarLinks(j, i, ESTRADA_DIREITA);
+            criarLinks(i, j, ESTRADA_DIREITA);
             
         }else if( codigo == CRUZAMENTO_BAIXO ){
-            criarLinks(j, i, ESTRADA_BAIXO);
+            criarLinks(i, j, ESTRADA_BAIXO);
             
         }else if( codigo == CRUZAMENTO_ESQUERDA ){
-            criarLinks(j, i, ESTRADA_ESQUERDA);
+            criarLinks(i, j, ESTRADA_ESQUERDA);
             
         }else if( codigo == CRUZAMENTO_CIMA_DIREITA ){
-            criarLinks(j, i, ESTRADA_CIMA);
-            criarLinks(j, i, ESTRADA_DIREITA);
+            criarLinks(i, j, ESTRADA_CIMA);
+            criarLinks(i, j, ESTRADA_DIREITA);
             
         }else if( codigo == CRUZAMENTO_CIMA_BAIXO ){
-            criarLinks(j, i, ESTRADA_CIMA);
-            criarLinks(j, i, ESTRADA_BAIXO);
+            criarLinks(i, j, ESTRADA_CIMA);
+            criarLinks(i, j, ESTRADA_BAIXO);
             
         }else if( codigo == CRUZAMENTO_CIMA_ESQUERDA ){
-            criarLinks(j, i, ESTRADA_CIMA);
-            criarLinks(j, i, ESTRADA_ESQUERDA);
+            criarLinks(i, j, ESTRADA_CIMA);
+            criarLinks(i, j, ESTRADA_ESQUERDA);
             
         }else if( codigo == CRUZAMENTO_DIREITA_BAIXO ){
-            criarLinks(j, i, ESTRADA_DIREITA);
-            criarLinks(j, i, ESTRADA_BAIXO);
+            criarLinks(i, j, ESTRADA_DIREITA);
+            criarLinks(i, j, ESTRADA_BAIXO);
             
         }else if( codigo == CRUZAMENTO_DIREITA_ESQUERDA ){
-            criarLinks(j, i, ESTRADA_DIREITA);
-            criarLinks(j, i, ESTRADA_ESQUERDA);
+            criarLinks(i, j, ESTRADA_DIREITA);
+            criarLinks(i, j, ESTRADA_ESQUERDA);
             
         }else if( codigo == CRUZAMENTO_BAIXO_ESQUERDA ){
-            criarLinks(j, i, ESTRADA_BAIXO);
-            criarLinks(j, i, ESTRADA_ESQUERDA);
+            criarLinks(i, j, ESTRADA_BAIXO);
+            criarLinks(i, j, ESTRADA_ESQUERDA);
             
         }else if( codigo == CRUZAMENTO_CIMA_DIREITA_BAIXO ){
-            criarLinks(j, i, ESTRADA_CIMA);
-            criarLinks(j, i, ESTRADA_DIREITA);
-            criarLinks(j, i, ESTRADA_BAIXO);
+            criarLinks(i, j, ESTRADA_CIMA);
+            criarLinks(i, j, ESTRADA_DIREITA);
+            criarLinks(i, j, ESTRADA_BAIXO);
             
         }else if( codigo == CRUZAMENTO_CIMA_DIREITA_ESQUERDA ){
-            criarLinks(j, i, ESTRADA_CIMA);
-            criarLinks(j, i, ESTRADA_DIREITA);
-            criarLinks(j, i, ESTRADA_ESQUERDA);
+            criarLinks(i, j, ESTRADA_CIMA);
+            criarLinks(i, j, ESTRADA_DIREITA);
+            criarLinks(i, j, ESTRADA_ESQUERDA);
             
         }else if( codigo == CRUZAMENTO_CIMA_BAIXO_ESQUERDA ){
-            criarLinks(j, i, ESTRADA_CIMA);
-            criarLinks(j, i, ESTRADA_BAIXO);
-            criarLinks(j, i, ESTRADA_ESQUERDA);
+            criarLinks(i, j, ESTRADA_CIMA);
+            criarLinks(i, j, ESTRADA_BAIXO);
+            criarLinks(i, j, ESTRADA_ESQUERDA);
             
         }else if( codigo == CRUZAMENTO_DIREITA_BAIXO_ESQUERDA ){
-            criarLinks(j, i, ESTRADA_DIREITA);
-            criarLinks(j, i, ESTRADA_BAIXO);
-            criarLinks(j, i, ESTRADA_ESQUERDA);
+            criarLinks(i, j, ESTRADA_DIREITA);
+            criarLinks(i, j, ESTRADA_BAIXO);
+            criarLinks(i, j, ESTRADA_ESQUERDA);
             
         }    
     }

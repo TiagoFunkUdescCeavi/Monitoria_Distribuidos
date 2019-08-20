@@ -124,7 +124,7 @@ public class Tela extends javax.swing.JFrame implements ObservadorVeiculo, Obser
         for (int i = 0; i < mapa.length; i++) {// se tiver espaço na matriz
             for (int j = 0; j < mapa[i].length; j++) {
                 JLabel jl = new JLabel();
-                jl.setLocation((int) ((i + 13.5) * ESPACO), (int) ((j + 0.5) * ESPACO));
+                jl.setLocation( (int) ((j + 13.5) * ESPACO), (int) ((i + 0.5) * ESPACO));
                 jl.setSize(TAMANHO, TAMANHO);
                 jl.setVisible(true);
                 jl.setBorder(BorderFactory.createLineBorder(Color.BLACK));

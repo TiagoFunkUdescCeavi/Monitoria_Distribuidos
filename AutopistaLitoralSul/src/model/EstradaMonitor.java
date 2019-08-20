@@ -47,6 +47,6 @@ public class EstradaMonitor extends Estrada{
 
     @Override
     public String toString() {
-        return super.toString() + bloqueio.toString();
+        return super.toString();
     }
 }
