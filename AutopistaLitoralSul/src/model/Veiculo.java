@@ -54,6 +54,10 @@ public class Veiculo extends Thread{
             PedacoMapa proximo;
             List< PedacoMapa > caminho;
             
+            // tratamento especial da primeira posicao, precisa obter acesso exclusivo
+            getPedacoMapa().reservar();
+            sleep( PedacoMapa.TEMPO_ESPERA );
+            
             while( !finalizado ){
                 atual = getPedacoMapa();
                 if( atual != null ){

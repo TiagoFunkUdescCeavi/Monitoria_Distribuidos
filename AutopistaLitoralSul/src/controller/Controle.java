@@ -82,10 +82,12 @@ public class Controle {
             if( pm.tentaReservar() ){
                 System.out.println("Reservou: " + pm.toString() );
                 v = new Veiculo( pm );
+                
                 for( ObservadorController o : listaObsController ){
                     o.cadastrarVeiculo( v );
                 }
                 v.start();
+                pm.liberar();
                 contador++;
             }
         }
