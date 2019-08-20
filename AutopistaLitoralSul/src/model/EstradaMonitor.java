@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class EstradaMonitor extends Estrada{
@@ -17,8 +19,13 @@ public class EstradaMonitor extends Estrada{
 
     @Override
     public boolean tentaReservar(){
-        boolean tentar = bloqueio.tryLock();
-        return tentar;
+//        return bloqueio.tryLock();
+        try {
+            return bloqueio.tryLock(new Random().nextInt( TEMPO_TENTATIVA ), TimeUnit.MILLISECONDS);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     @Override

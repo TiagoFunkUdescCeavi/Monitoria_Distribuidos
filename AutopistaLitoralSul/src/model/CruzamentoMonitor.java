@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -18,7 +20,13 @@ public class CruzamentoMonitor extends Cruzamento{
     
     @Override
     public boolean tentaReservar(){
-        return bloqueio.tryLock();
+//        return bloqueio.tryLock();
+        try {
+            return bloqueio.tryLock(new Random().nextInt( TEMPO_TENTATIVA ), TimeUnit.MILLISECONDS);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     @Override

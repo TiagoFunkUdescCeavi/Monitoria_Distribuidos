@@ -1,6 +1,10 @@
 package model;
 
+import java.util.Random;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CruzamentoSemaforo extends Cruzamento{
     
@@ -23,7 +27,13 @@ public class CruzamentoSemaforo extends Cruzamento{
     
     @Override
     public boolean tentaReservar(){
-        return semaforo.tryAcquire();
+//        return semaforo.tryAcquire();
+        try {
+            return semaforo.tryAcquire( new Random().nextInt( TEMPO_TENTATIVA ), TimeUnit.MILLISECONDS);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     @Override

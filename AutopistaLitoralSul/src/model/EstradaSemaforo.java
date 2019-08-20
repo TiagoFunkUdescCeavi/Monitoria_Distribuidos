@@ -1,6 +1,8 @@
 package model;
 
+import java.util.Random;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 public class EstradaSemaforo extends Estrada{
 
@@ -22,7 +24,13 @@ public class EstradaSemaforo extends Estrada{
 
     @Override
     public boolean tentaReservar(){
-        return semaforo.tryAcquire();
+//        return semaforo.tryAcquire();
+        try {
+            return semaforo.tryAcquire( new Random().nextInt(TEMPO_TENTATIVA), TimeUnit.MILLISECONDS);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     @Override

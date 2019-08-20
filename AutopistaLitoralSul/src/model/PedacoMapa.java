@@ -9,6 +9,7 @@ public abstract class PedacoMapa {
     private String sentido;
     private Veiculo veiculo;
     
+    public static final int TEMPO_TENTATIVA = 20;
     public static final int TEMPO_ESPERA = 500;
 
     public PedacoMapa(int x, int y, String sentido) {
