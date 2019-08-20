@@ -80,7 +80,6 @@ public class Controle {
         while ( quantidadeVeiculos > contador ) {
             pm = posicoesIniciais.get( rand.nextInt( posicoesIniciais.size() ) );
             if( pm.tentaReservar() ){
-                System.out.println("Reservou: " + pm.toString() );
                 v = new Veiculo( pm );
                 
                 for( ObservadorController o : listaObsController ){
@@ -106,6 +105,7 @@ public class Controle {
                     o.cadastrarVeiculo( v );
                 }
                 v.start();
+                pm.liberar();
             }
         }while( !reservou );
     }

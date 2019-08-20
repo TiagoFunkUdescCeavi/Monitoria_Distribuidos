@@ -61,11 +61,6 @@ public class Veiculo extends Thread{
             while( !finalizado ){
                 atual = getPedacoMapa();
                 if( atual != null ){
-//                    boolean deuBoa;
-//                    do{
-//                        caminho = atual.criarCaminho();
-//                        deuBoa = adquirirAcesso(caminho);
-//                    }while( !deuBoa );
                     caminho = atual.criarCaminho( new ArrayList<>() );
 //                    estaOk(caminho);
                     adquirirAcesso(caminho);
@@ -79,7 +74,6 @@ public class Veiculo extends Thread{
                             for( ObservadorVeiculo o : listaObs ){
                                 o.avisarMovimento( atual.getX(), atual.getY(), proximo.getX(), proximo.getY() );
                             }
-                            System.out.println( "Liberar: " + atual.toString() );
                             atual.liberar();
                             atual = proximo;
                         }else{
