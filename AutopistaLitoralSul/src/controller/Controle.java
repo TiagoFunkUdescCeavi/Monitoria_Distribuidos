@@ -46,7 +46,7 @@ public class Controle {
         
         if( ehSemaforo ){
             fabrica = new FabricaSemaforo();
-            System.out.println("Monitor");
+            System.out.println("Semaforo");
         }else{
             fabrica = new FabricaMonitor();
             System.out.println("Monitor");
@@ -81,10 +81,12 @@ public class Controle {
             pm = posicoesIniciais.get( rand.nextInt( posicoesIniciais.size() ) );
             if( pm.tentaReservar() ){
                 v = new Veiculo( pm );
+                
                 for( ObservadorController o : listaObsController ){
                     o.cadastrarVeiculo( v );
                 }
                 v.start();
+                pm.liberar();
                 contador++;
             }
         }
