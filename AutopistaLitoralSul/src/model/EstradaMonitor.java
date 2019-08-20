@@ -37,7 +37,6 @@ public class EstradaMonitor extends Estrada{
     @Override
     public void liberar(){
         assert bloqueio.isLocked() : "Não esta lockend";
-        System.out.println( bloqueio.getHoldCount() );
         bloqueio.unlock();
     }
     

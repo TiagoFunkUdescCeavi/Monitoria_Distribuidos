@@ -62,7 +62,7 @@ public class Veiculo extends Thread{
                 atual = getPedacoMapa();
                 if( atual != null ){
                     caminho = atual.criarCaminho( new ArrayList<>() );
-//                    estaOk(caminho);
+//                    imprimirCaminho(caminho);
                     adquirirAcesso(caminho);
                     
                     for( int i = 0; i < caminho.size(); i++ ){
@@ -98,23 +98,15 @@ public class Veiculo extends Thread{
         }
     }
     
-    //private 
-    
-    private boolean estaOk( List<PedacoMapa> caminho){
+    private boolean imprimirCaminho( List<PedacoMapa> caminho){
         PedacoMapa pm;
-        for (int i = 0; i < caminho.size(); i++) {
-            pm = caminho.get( i );
-            for (int j = i+1; j < caminho.size(); j++) {
-                if( pm.equals( caminho.get( j ) ) ){
-                    System.out.println("Eita !!!");
-                    for (int k = 0; k < caminho.size(); k++) {
-                        System.out.print( caminho.get( k ).toString() + " " );
-                    }
-                    System.out.println("");
-                    return false;
-                }
+        for (int k = 0; k < caminho.size(); k++) {
+            pm = caminho.get( k );
+            if( pm != null ){
+                System.out.print( pm.toString() + " " );
             }
         }
+        System.out.println("");
         return true;
     }
     
@@ -126,6 +118,7 @@ public class Veiculo extends Thread{
         }else{
             boolean reservou;
             do{
+//                System.out.println( "Reservando: " + this.getId() + "-" + caminho.get(0).toString() );
                 reservou = true;
                 for( int i = 0; i < caminho.size(); i++ ){
                     if( !caminho.get( i ).tentaReservar() ){
@@ -136,10 +129,12 @@ public class Veiculo extends Thread{
                     }
                 }
             }while( !reservou );
+//            System.out.println( "Reservando (sucesso): " + this.getId() + "-" + caminho.get(0).toString() );
         }
     }
     
     private void liberarAcesso( List< PedacoMapa > caminho, int cont ){
+//        System.out.println( "Liberando: " + this.getId() + "-" + caminho.get(0).toString() );
         for( int i = 0; i < cont; i++ ){
             caminho.get( i ).liberar();
         }

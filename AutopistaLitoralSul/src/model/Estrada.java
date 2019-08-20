@@ -22,10 +22,22 @@ public abstract class Estrada extends PedacoMapa {
     
     @Override
     public List< PedacoMapa > criarCaminho( List< PedacoMapa > caminho ){
-        caminho.add(0, proximo);
-        if( proximo != null && proximo.precisoProjetarCaminho() ){
-            caminho = proximo.criarCaminho( caminho );
+        boolean vigiarTamanho = false;
+        boolean corrigirCaminho;
+        if( caminho.isEmpty() ){
+            vigiarTamanho = true;
         }
+        do{
+            corrigirCaminho = false;
+            caminho.add(0, proximo);
+            if( proximo != null && proximo.precisoProjetarCaminho() ){
+                caminho = proximo.criarCaminho( caminho );
+            }
+            corrigirCaminho = vigiarTamanho && caminho.size() > 4;
+            if( corrigirCaminho ){
+                caminho.clear();
+            }
+        }while( corrigirCaminho );
         return caminho;
     }
            
